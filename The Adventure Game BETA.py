@@ -63,7 +63,6 @@ def save_game():
         'health': health,
         'stamina': stamina,
         'player_location': player_location    
-
     }
     
     with open(f'{creategamename}.pkl', 'wb') as f:
@@ -93,6 +92,7 @@ def load_game():
                 health = game_state['health']
                 stamina = game_state['stamina']
                 player_location = game_state['player_location']
+                creategamename = loadname
                 print("Game loaded successfully!")
                 if player_location == "village":
                     village()
