@@ -188,8 +188,11 @@ Tip: Dont die
             answermainmenu = input(">>>")
             
             if answermainmenu in ["Create" , "create"]:
-                
-                create_game()
+                print("Create new save file or temporarily start a new game? (Type 'new' for new save file or 'temp' for temporary game, temp works best if you are not connected to the game dev repo)")
+                if input(">>>") in ["new" , "New"]:
+                    create_game()
+                elif input(">>>") in ["temp" , "Temp"]:
+                    start_game_area()
             
             elif answermainmenu in ["Load" , "load"]:
                 
