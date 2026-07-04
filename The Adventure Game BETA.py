@@ -63,7 +63,9 @@ def save_game():
         'health': health,
         'stamina': stamina,
         'player_location': player_location    
+
     }
+    
     with open(f'{creategamename}.pkl', 'wb') as f:
         pickle.dump(game_state, f)
 
@@ -90,6 +92,7 @@ def load_game():
                 maxstamina = game_state['maxstamina']
                 health = game_state['health']
                 stamina = game_state['stamina']
+                player_location = game_state['player_location']
                 print("Game loaded successfully!")
                 if player_location == "village":
                     village()
@@ -281,13 +284,141 @@ def startinnroom():
                                     XP = XP + 5
                                     ansinnroom
 
-        elif ansinnroom in ("Go back" , "go back"):
+        elif ansinnroom in ("Save game" , "save game" , "Save" , "save"):
+            save_game()
+            print("Game saved successfully!")
+            ansinnroom
+
+        elif ansinnroom in ("Go back" , "go back" , "Leave" , "leave"):
                                     print("You leave the room and go back to the inn")
                                     startvillinn()
         else:
                                     print("Doesn't look like that's working, you just stand there")
 
+def barfight():
+    global health , stamina , maxhealth , maxstamina , player_inventory , money , Level , XP, player_location
+
+    player_location = "barfight"
+
+    save_game()
+    
+    # This part of the game was kindly made by Aiden, TYSM Aiden, you are a legend
+                                
+    from random import randint
+
+
+    recoil = 0
+    playhealth = health
+    comphealth = 10
+
+    fighting1 = True
+
+    ComputerFightOptions1 = ["attack","defend","attack"]
+    ComputerFightOptions2 = ["attack","defend"]
+    Crit = ["a","b","c"]
+
+    hardmode = input("Would you like to turn on hard mode? [y/n]")
+    if hardmode == "y":
+        print("\nHard mode enabled.\n")
+        print("The drunkard drinks a full bottle of rum and becomes much more aggressive! He now has twice the health!\n")
+        comphealth = 20
+    else:
+        print()
+    while fighting1 == True:
+        atkdmg = 1
+        crtdmg = 3
+        comdmg = 2
+        comatk = ComputerFightOptions1[randint(0,2)]
+        crit = Crit[randint(0,2)]
+        if recoil == 1:
+            print("You have recoiled and cannot do anything!\n")
+        elif recoil == 2:
+            print("They have recoiled and cannot do anything!\n")
+            atk = input("What will you do? either 'attack' or 'defend' ")
+        else:
+            atk = input("What will you do? either 'attack' or 'defend' ")
+        if atk == "a" or atk == "atk":
+            atk = "attack"
+            print()
+        elif atk == "d" or atk == "def":
+            atk = "defend"
+            print()
+        else:
+            print()
+        if atk == "attack" and comatk == "attack" and recoil == 0:
+            if crit == "c":
+                comphealth = comphealth - crtdmg
+                print("A crit!")
+                playhealth = playhealth - 1
+                print("You get hit.\n")
+            else:
+                comphealth = comphealth - atkdmg
+                print("You hit the enemy.")
+                playhealth = playhealth - comdmg
+                print("You got hit.\n")
+        elif atk == "defend" and comatk == "defend" and recoil == 0:
+            print("You both defend.\n")
+        elif atk == "attack" and comatk == "defend" and recoil == 0:
+            if crit == "c":
+                print("They defend. but you crit!\n")
+                comphealth = comphealth - 1
+            else:
+                print("They defend. You recoil!\n")
+                recoil = 1
+        elif atk == "defend" and comatk == "attack" and recoil == 0:
+            print("You defended an attack. They recoil!\n")
+            recoil = 2
+        elif atk == "defend" and recoil == 2:
+            print("You wasted your opportunity!")
+            recoil = 0
+        elif atk == "attack" and recoil == 2:
+            if crit == "c":
+                print("You get a free crit!")
+                comphealth = comphealth - crtdmg
+            else:
+                print("You get a free hit!")
+                comphealth = comphealth - atkdmg
+            recoil = 0
+        elif atk == "defend" or atk == "attack" and recoil == 1:
+            if comatk == "defend":
+                print("The drunkard wasted their free attack!")
+            else:
+                print("The drunkard gets a free hit!")
+                playhealth = playhealth - comdmg
+            recoil = 0
+        elif atk == "debug":
+            print("comphealth:", comphealth, "\n" , "playhealth:", playhealth, "\n" ,"recoil:", recoil)
+        else:
+            print("Invalid command.\n")
+        if comphealth == 0 or comphealth == -1 or comphealth == -2:
+                fighting1 = False
+                print("You win!")
+                print("Your health is now ",playhealth," and the drunkard's health is ",comphealth,"\n")
+                health = health - playhealth
+                money = money + 10
+                XP = XP + 10
+                print("The drunkard says that he's had a good fight and that he respects you, he then tells you to be careful out there and that the monster is no joke,\n along with giving you ξ10 for winning the fight as well as 10 XP")
+                print("He also tells you that he is ready to fight you again if you want to test your strength")
+                print("Do you want to leave the tavern?")
+                leaveafterfight = input("Leave tavern? ")
+                if leaveafterfight in ("Yes" , "yes" , "Y" , "y"):
+                    print("You leave the tavern")
+                    village()
+                else:
+                    print("You decide stay in the tavern")
+                    return
+        elif playhealth == 0 or playhealth == -1 or playhealth == -2:                                   
+                fighting1 = False
+                print("You lose and you are dragged out of the bar")
+                village()
+        else:
+            print("The fight continues.\n")
+            print("*** Your health is now" , playhealth," and the drunkard's health is ",comphealth," ***" "\n")
+
+
+
 def startvillinn():
+      
       global sleptininn , health , stamina , maxhealth , maxstamina , player_inventory , money , Level , XP, player_location
 
       player_location = "startvillinn"
@@ -436,10 +567,154 @@ def startvillinn():
                     else:
                         print("That's not on the menu") 
                         ansbart
-                  
+
+                elif ansinn in ("Save game" , "save game" , "Save" , "save"):
+                    save_game()
+                    print("Game saved successfully!") 
 
                 else:
                     print("Doesn't look like that's working, you just stand there")
+
+
+def startvilltavern():
+    global sleptininn , healtth , stamina , maxhealth , maxstamina , player_inventory , money , Level , XP, player_location
+
+    while True:
+                    print("You enter the tavern, there is a bartender and a few patrons, as well as an angry drunkard")
+                    answertav = input("What do you do here? ")
+                    if answertav in ("Talk to bartender" , "talk to bartender"):
+                        print("The bartender sympathizes with you and tells you that the village has been abandoned for a while, he says that the villagers left because of a monster that has been terrorizing the \nvillage, he also says that the monster is very strong and that you should be careful if you decide to go out and fight it")
+                    elif answertav in ("Talk to patrons" , "talk to patrons"):
+                        print("The patrons are all very drunk and don't have much to say, they just mumble incoherently and occasionally shout something about \'a monster\'")
+                    elif answertav in ("Order a drink" , "order a drink" , "Buy a drink" , "buy a drink"):
+                        print("The options are:")
+                        print("-Ale: 2ξ")
+                        print("-Wine: 3ξ")
+                        print("-Whiskey: 5ξ")
+                        print("-Rum: 7ξ")
+                        print("-Vodka: 10ξ")
+                        print("-Water: Free!")
+                        print("You have ξ" , money)
+                        order = input("What do you want to order?")
+                        if order in ("Ale" , "ale"):                          
+                            if money >= 2:
+                                money = money - 2
+                                choice = input("You order an ale, do you want to drink it? ")
+                                if choice in ("Yes" , "yes" , "Y" , "y"):
+                                    print("You drink the ale and feel a little bit better")
+                                    health = health + 1
+                                    stamina = stamina + 1
+                                    health = min(health, maxhealth)
+                                    stamina = min(stamina, maxstamina)
+                                    print("Your health is now ", health, " and your stamina is now ", stamina)
+                                else:
+                                    print("You ask the bartender to bottle the ale for you, it goes into your inventory")
+                                    addToInventory("Ale")
+                            else:
+                                print("You don't have enough money to buy that")
+                        if order in ("Wine" , "wine"):
+                            if money >= 3:
+                                money = money - 3
+                                choice = input("You order a wine, do you want to drink it? ")
+                                if choice in ("Yes" , "yes" , "Y" , "y"):
+                                    print("You drink the wine and feel a little bit better")
+                                    health = health + 2
+                                    stamina = stamina + 1
+                                    health = min(health, maxhealth)
+                                    stamina = min(stamina, maxstamina)
+                                    print("Your health is now ", health, " and your stamina is now ", stamina)
+                                else:
+                                    print("You ask the bartender to bottle the wine for you, it goes into your inventory")
+                                    addToInventory("Wine")
+                            else:
+                                print("You don't have enough money to buy that")
+                        if order in ("Whiskey" , "whiskey"):
+                            if money >= 5:
+                                money = money - 5
+                                choice = input("You order a whiskey, do you want to drink it? ")
+                                if choice in ("Yes" , "yes" , "Y" , "y"):
+                                    print("You drink the whiskey and feel a little bit better")
+                                    health = health + 3
+                                    stamina = stamina + 2
+                                    health = min(health, maxhealth)
+                                    stamina = min(stamina, maxstamina)
+                                    print("Your health is now ", health, " and your stamina is now ", stamina)
+                                else:
+                                    print("You ask the bartender to bottle the whiskey for you, it goes into your inventory")
+                                    addToInventory("Whiskey")
+                            else:
+                                print("You don't have enough money to buy that")
+                        if order in ("Rum" , "rum"):
+                            if money >= 7:
+                                money = money - 7
+                                choice = input("You order a rum, do you want to drink it? ")
+                                if choice in ("Yes" , "yes" , "Y" , "y"):
+                                    print("You drink the rum and feel a little bit better")
+                                    health = health + 4
+                                    stamina = stamina + 3
+                                    health = min(health, maxhealth)
+                                    stamina = min(stamina, maxstamina)
+                                    print("Your health is now ", health, " and your stamina is now ", stamina)
+                                else:
+                                    print("You ask the bartender to bottle the rum for you, it goes into your inventory")
+                                    addToInventory("Rum")
+                            else:
+                                print("You don't have enough money to buy that")
+                        if order in ("Vodka" , "vodka"):
+                            if money >= 10:
+                                money = money - 10
+                                choice = input("You order a vodka, do you want to drink it? ")
+                                if choice in ("Yes" , "yes" , "Y" , "y"):
+                                    print("You drink the vodka and feel a little bit better")
+                                    health = health + 5
+                                    stamina = stamina + 4
+                                    health = min(health, maxhealth)
+                                    stamina = min(stamina, maxstamina)
+                                    print("Your health is now ", health, " and your stamina is now ", stamina)
+                                else:
+                                    print("You ask the bartender to bottle the vodka for you, it goes into your inventory")
+                                    addToInventory("Vodka")
+                            else:
+                                print("You don't have enough money to buy that")
+                        if order in ("Water" , "water"):
+                            print("You order water, the bartender gives you a glass of water, do you want to drink it? ")
+                            choice = input("Do you want to drink it? ")
+                            if choice in ("Yes" , "yes" , "Y" , "y"):
+                                print("You drink the water and feel a tiny bit better, not much but it is refreshing, your stats did not change")
+                                print("Your health is now ", health, " and your stamina is now ", stamina)
+                            else:
+                                print("You ask the bartender to bottle the water for you, it goes into your inventory")
+                                addToInventory("Water")
+                                                
+                    elif answertav in ("Talk to angry drunkard" , "talk to angry drunkard"): 
+
+                            print("Drunkard: oI yOu lIl bUgger, yOu aRe disTurBing me peAce, lEave me alOne uNless yoU're loOking fOr a fIght")
+                            print("Hint: You will not have access to your equipment in the fight!")
+                            answertav2 = input("Leave him alone and leave the tavern? ")
+                            if answertav2 in ("Yes" , "yes" , "Y" , "y"):
+                                print("You think it's best to leave the angry drunkard alone and leave the tavern...")
+                                village()
+                            elif answertav2 in ("No" , "no" , "N" , "n"):
+                                print("\nYou decide to fight the angry drunkard")
+                                print("\nTraveler, this is your first fight...")
+                                print("Here is a simple tutorial...\n")
+                                print("**************************** TUTORIAL: COMBAT **********************************")
+                                print("\n-You and the enemy will take turns attacking and defending.")
+                                print("-If you attack and the enemy defends, you will recoil and be unable to attack next turn.")
+                                print("-If you defend and the enemy attacks, the enemy will recoil and be unable to attack next turn.")
+                                print("-If you both defend, nothing will happen.")
+                                print("-You both have an equal 33 percent chance to crit, which will do more damage than a normal attack.")
+                                print("-If you both attack, you will both take damage, but if you get a crit, you will do more damage")
+                                print("-The fight will continue until either you or the enemy runs out of health, good luck!\n")
+                                print("************************************************************************\n")
+                                barfight()
+                    
+                    elif answertav in ("Leave" , "leave" , "Exit" , "exit"):
+                        print("You leave the tavern")
+                        village()
+                    else:
+                        print("Doesn't look like that's working, you just stand there") 
+                        answertav
 
 def addToInventory(item):
     player_inventory.append(item)
@@ -970,6 +1245,7 @@ def village():
     global health, stamina, money, inventory , maxhealth, maxstamina , XP , Level , blacksmith_looted, player_location
 
     player_location = "village"
+    
     while True:    
             
         
@@ -1061,253 +1337,7 @@ def village():
         
                 
         if answervill in ("Enter tavern" , "enter tavern" , "Go to tavern" , "go to tavern"):
-            print("You enter the tavern, there is a bartender and a few patrons, as well as an angry drunkard")
-
-            while True:
-                    
-                    answertav = input("What do you do here? ")
-                    if answertav in ("Talk to bartender" , "talk to bartender"):
-                        print("The bartender sympathizes with you and tells you that the village has been abandoned for a while, he says that the villagers left because of a monster that has been terrorizing the \nvillage, he also says that the monster is very strong and that you should be careful if you decide to go out and fight it")
-                    elif answertav in ("Talk to patrons" , "talk to patrons"):
-                        print("The patrons are all very drunk and don't have much to say, they just mumble incoherently and occasionally shout something about \'a monster\'")
-                    elif answertav in ("Order a drink" , "order a drink" , "Buy a drink" , "buy a drink"):
-                        print("The options are:")
-                        print("-Ale: 2ξ")
-                        print("-Wine: 3ξ")
-                        print("-Whiskey: 5ξ")
-                        print("-Rum: 7ξ")
-                        print("-Vodka: 10ξ")
-                        print("-Water: Free!")
-                        print("You have ξ" , money)
-                        order = input("What do you want to order?")
-                        if order in ("Ale" , "ale"):                          
-                            if money >= 2:
-                                money = money - 2
-                                choice = input("You order an ale, do you want to drink it? ")
-                                if choice in ("Yes" , "yes" , "Y" , "y"):
-                                    print("You drink the ale and feel a little bit better")
-                                    health = health + 1
-                                    stamina = stamina + 1
-                                    health = min(health, maxhealth)
-                                    stamina = min(stamina, maxstamina)
-                                    print("Your health is now ", health, " and your stamina is now ", stamina)
-                                else:
-                                    print("You ask the bartender to bottle the ale for you, it goes into your inventory")
-                                    addToInventory("Ale")
-                            else:
-                                print("You don't have enough money to buy that")
-                        if order in ("Wine" , "wine"):
-                            if money >= 3:
-                                money = money - 3
-                                choice = input("You order a wine, do you want to drink it? ")
-                                if choice in ("Yes" , "yes" , "Y" , "y"):
-                                    print("You drink the wine and feel a little bit better")
-                                    health = health + 2
-                                    stamina = stamina + 1
-                                    health = min(health, maxhealth)
-                                    stamina = min(stamina, maxstamina)
-                                    print("Your health is now ", health, " and your stamina is now ", stamina)
-                                else:
-                                    print("You ask the bartender to bottle the wine for you, it goes into your inventory")
-                                    addToInventory("Wine")
-                            else:
-                                print("You don't have enough money to buy that")
-                        if order in ("Whiskey" , "whiskey"):
-                            if money >= 5:
-                                money = money - 5
-                                choice = input("You order a whiskey, do you want to drink it? ")
-                                if choice in ("Yes" , "yes" , "Y" , "y"):
-                                    print("You drink the whiskey and feel a little bit better")
-                                    health = health + 3
-                                    stamina = stamina + 2
-                                    health = min(health, maxhealth)
-                                    stamina = min(stamina, maxstamina)
-                                    print("Your health is now ", health, " and your stamina is now ", stamina)
-                                else:
-                                    print("You ask the bartender to bottle the whiskey for you, it goes into your inventory")
-                                    addToInventory("Whiskey")
-                            else:
-                                print("You don't have enough money to buy that")
-                        if order in ("Rum" , "rum"):
-                            if money >= 7:
-                                money = money - 7
-                                choice = input("You order a rum, do you want to drink it? ")
-                                if choice in ("Yes" , "yes" , "Y" , "y"):
-                                    print("You drink the rum and feel a little bit better")
-                                    health = health + 4
-                                    stamina = stamina + 3
-                                    health = min(health, maxhealth)
-                                    stamina = min(stamina, maxstamina)
-                                    print("Your health is now ", health, " and your stamina is now ", stamina)
-                                else:
-                                    print("You ask the bartender to bottle the rum for you, it goes into your inventory")
-                                    addToInventory("Rum")
-                            else:
-                                print("You don't have enough money to buy that")
-                        if order in ("Vodka" , "vodka"):
-                            if money >= 10:
-                                money = money - 10
-                                choice = input("You order a vodka, do you want to drink it? ")
-                                if choice in ("Yes" , "yes" , "Y" , "y"):
-                                    print("You drink the vodka and feel a little bit better")
-                                    health = health + 5
-                                    stamina = stamina + 4
-                                    health = min(health, maxhealth)
-                                    stamina = min(stamina, maxstamina)
-                                    print("Your health is now ", health, " and your stamina is now ", stamina)
-                                else:
-                                    print("You ask the bartender to bottle the vodka for you, it goes into your inventory")
-                                    addToInventory("Vodka")
-                            else:
-                                print("You don't have enough money to buy that")
-                        if order in ("Water" , "water"):
-                            print("You order water, the bartender gives you a glass of water, do you want to drink it? ")
-                            choice = input("Do you want to drink it? ")
-                            if choice in ("Yes" , "yes" , "Y" , "y"):
-                                print("You drink the water and feel a tiny bit better, not much but it is refreshing, your stats did not change")
-                                print("Your health is now ", health, " and your stamina is now ", stamina)
-                            else:
-                                print("You ask the bartender to bottle the water for you, it goes into your inventory")
-                                addToInventory("Water")
-                                                
-                    elif answertav in ("Talk to angry drunkard" , "talk to angry drunkard"): 
-
-                            print("Drunkard: oI yOu lIl bUgger, yOu aRe disTurBing me peAce, lEave me alOne uNless yoU're loOking fOr a fIght")
-                            print("Hint: You will not have access to your equipment in the fight!")
-                            answertav2 = input("Leave him alone and leave the tavern? ")
-                            if answertav2 in ("Yes" , "yes" , "Y" , "y"):
-                                print("You think it's best to leave the angry drunkard alone and leave the tavern...")
-                                village()
-                            elif answertav2 in ("No" , "no" , "N" , "n"):
-                                print("\nYou decide to fight the angry drunkard")
-                                print("\nTraveler, this is your first fight...")
-                                print("Here is a simple tutorial...\n")
-                                print("**************************** TUTORIAL: COMBAT **********************************")
-                                print("\n-You and the enemy will take turns attacking and defending.")
-                                print("-If you attack and the enemy defends, you will recoil and be unable to attack next turn.")
-                                print("-If you defend and the enemy attacks, the enemy will recoil and be unable to attack next turn.")
-                                print("-If you both defend, nothing will happen.")
-                                print("-You both have an equal 33 percent chance to crit, which will do more damage than a normal attack.")
-                                print("-If you both attack, you will both take damage, but if you get a crit, you will do more damage")
-                                print("-The fight will continue until either you or the enemy runs out of health, good luck!\n")
-                                print("************************************************************************\n")
-                                
-                                 # This part of the game was kindly made by Aiden, TYSM Aiden, you are a legend
-                                
-                                from random import randint
-                                recoil = 0
-                                playhealth = health
-                                comphealth = 10
-
-                                fighting1 = True
-
-                                ComputerFightOptions1 = ["attack","defend","attack"]
-                                ComputerFightOptions2 = ["attack","defend"]
-                                Crit = ["a","b","c"]
-
-                                hardmode = input("Would you like to turn on hard mode? [y/n]")
-                                if hardmode == "y":
-                                    print("\nHard mode enabled.\n")
-                                    print("The drunkard drinks a full bottle of rum and becomes much more aggressive! He now has twice the health!\n")
-                                    comphealth = 20
-                                else:
-                                    print()
-                                while fighting1 == True:
-                                    atkdmg = 1
-                                    crtdmg = 3
-                                    comdmg = 2
-                                    comatk = ComputerFightOptions1[randint(0,2)]
-                                    crit = Crit[randint(0,2)]
-                                    if recoil == 1:
-                                        print("You have recoiled and cannot do anything!\n")
-                                    elif recoil == 2:
-                                        print("They have recoiled and cannot do anything!\n")
-                                        atk = input("What will you do? either 'attack' or 'defend' ")
-                                    else:
-                                        atk = input("What will you do? either 'attack' or 'defend' ")
-                                    if atk == "a" or atk == "atk":
-                                        atk = "attack"
-                                        print()
-                                    elif atk == "d" or atk == "def":
-                                        atk = "defend"
-                                        print()
-                                    else:
-                                        print()
-                                    if atk == "attack" and comatk == "attack" and recoil == 0:
-                                        if crit == "c":
-                                            comphealth = comphealth - crtdmg
-                                            print("A crit!")
-                                            playhealth = playhealth - 1
-                                            print("You get hit.\n")
-                                        else:
-                                            comphealth = comphealth - atkdmg
-                                            print("You hit the enemy.")
-                                            playhealth = playhealth - comdmg
-                                            print("You got hit.\n")
-                                    elif atk == "defend" and comatk == "defend" and recoil == 0:
-                                        print("You both defend.\n")
-                                    elif atk == "attack" and comatk == "defend" and recoil == 0:
-                                        if crit == "c":
-                                            print("They defend. but you crit!\n")
-                                            comphealth = comphealth - 1
-                                        else:
-                                            print("They defend. You recoil!\n")
-                                            recoil = 1
-                                    elif atk == "defend" and comatk == "attack" and recoil == 0:
-                                        print("You defended an attack. They recoil!\n")
-                                        recoil = 2
-                                    elif atk == "defend" and recoil == 2:
-                                        print("You wasted your opportunity!")
-                                        recoil = 0
-                                    elif atk == "attack" and recoil == 2:
-                                        if crit == "c":
-                                            print("You get a free crit!")
-                                            comphealth = comphealth - crtdmg
-                                        else:
-                                            print("You get a free hit!")
-                                            comphealth = comphealth - atkdmg
-                                        recoil = 0
-                                    elif atk == "defend" or atk == "attack" and recoil == 1:
-                                        if comatk == "defend":
-                                            print("The drunkard wasted their free attack!")
-                                        else:
-                                            print("The drunkard gets a free hit!")
-                                            playhealth = playhealth - comdmg
-                                        recoil = 0
-                                    elif atk == "debug":
-                                        print("comphealth:", comphealth, "\n" , "playhealth:", playhealth, "\n" ,"recoil:", recoil)
-                                    else:
-                                        print("Invalid command.\n")
-                                    if comphealth == 0 or comphealth == -1 or comphealth == -2:
-                                            fighting1 = False
-                                            print("You win!")
-                                            print("Your health is now ",playhealth," and the drunkard's health is ",comphealth,"\n")
-                                            health = health - playhealth
-                                            money = money + 10
-                                            XP = XP + 10
-                                            print("The drunkard says that he's had a good fight and that he respects you, he then tells you to be careful out there and that the monster is no joke,\n along with giving you ξ10 for winning the fight as well as 10 XP")
-                                            print("He also tells you that he is ready to fight you again if you want to test your strength")
-                                            print("Do you want to leave the tavern?")
-                                            leaveafterfight = input("Leave tavern? ")
-                                            if leaveafterfight in ("Yes" , "yes" , "Y" , "y"):
-                                                print("You leave the tavern")
-                                                village()
-                                            else:
-                                                print("You decide stay in the tavern")
-                                    elif playhealth == 0 or playhealth == -1 or playhealth == -2:                                   
-                                            fighting1 = False
-                                            print("You lose and you are dragged out of the bar")
-                                            village()
-                                    else:
-                                        print("The fight continues.\n")
-                                        print("*** Your health is now" , playhealth," and the drunkard's health is ",comphealth," ***" "\n")
-
-                    elif answertav in ("Leave" , "leave" , "Exit" , "exit"):
-                        print("You leave the tavern")
-                        village()
-                    else:
-                        print("Doesn't look like that's working, you just stand there") 
-                        answertav
+           startvilltavern()
             
         elif answervill in ("Check inventory" , "check inventory" , "Inventory" , "inventory"):
             inventory()
@@ -1683,10 +1713,14 @@ def village():
                 elif ansreg in ("Scribbled out name" , "scribbled out name" , "Go to Scribbled out name" , "go to Scribbled out name"):
                     print("You ask the driver about the scribbled out name region, he tells you that he would rather not talk about it and that you should just stay away from it, you get the feeling that there is something really bad in that region and that the driver is trying to protect you from it, you decide to not ask about it anymore and just go back to the stagecoach station")
                     ansstg
-                      
+
+        elif answervill in ("Save game" , "save game" , "Save" , "save"):
+            save_game()
+            print("Game saved successfully!")
+
         else:
             print("Doesn't look like that's working, you just stand there")
-        
+   
         if answervill in ("DEBUG_ON"):
             debug()
         
@@ -1722,7 +1756,6 @@ def start_game_area():
                                     sleep(2)
                                     print("You arrive at the village and lose 3 stamina")
                                     stamina = stamina - 3
-                                    player_location = "village"
                                     village()
                         else:
                                     print("Doesn't look like that's working, you just stand there")
@@ -1746,10 +1779,14 @@ def start_game_area():
                         if health <= 3:
                             print("You are very low on health, you should find something to eat or drink soon")
                         if stamina <= 3:
-                            print("You are very low on stamina, you should find something to eat or drink soon")                        
+                            print("You are very low on stamina, you should find something to eat or drink soon") 
+
+        elif answer in ("Save game" , "save game" , "Save" , "save"):
+            save_game()
+            print("Game saved successfully!")                      
         
         else:
-                        print("Doesn't look like that's working, you just stand there")
+            print("Doesn't look like that's working, you just stand there")
 
 
 # This is the main loop of the game, this place is fragile if you tamper with it, so be careful, also do not delete or move it in front of any functions or those areas will not be accessible (Code will be structurally unreachable)
