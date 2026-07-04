@@ -239,6 +239,91 @@ def debug():
         elif debuginput in ("goToVillage"):
             village()
 
+def startvillstagecoach():
+    global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP 
+    player_location = "startvillstagecoach"
+            
+    print("You enter the stagecoach station, there is a driver and a few horses, the driver tells you that he can take you to different locations for a price")
+    print("Here are the locations you can go to:")
+    print("-Littlepeak Mountain, Kamaranda: 10ξ")
+    print("-Durian City, Kamaranda: 15ξ")
+    print("-River Village, Kamaranda: 12ξ")
+    print("-Frosthaven, Kamaranda: 20ξ")
+    print("-Eldoria, Kamaranda: 25ξ")
+    print("-Go to different region: 30ξ")
+    ansstg = input("Where do you want to go? ")
+
+    if ansstg in ("Littlepeak Mountain" , "littlepeak mountain" , "Go to Littlepeak Mountain" , "go to Littlepeak Mountain"):
+        if money >= 10:
+            money = money - 10
+            print("You pay the driver and he takes you to Littlepeak Mountain")
+            littlepeak()
+        else:
+            print("You don't have enough money to go there")
+
+    elif ansstg in ("Durian City" , "durian city" , "Go to Durian City" , "go to Durian City"):
+        if money >= 15:
+            money = money - 15
+            print("You pay the driver and he takes you to Durian City")
+            duriancity()
+        else:
+            print("You don't have enough money to go there")
+    
+    elif ansstg in ("River Village" , "river village" , "Go to River Village" , "go to River Village"):
+        if money >= 12:
+            money = money - 12
+            print("You pay the driver and he takes you to River Village")
+            rivervillage()
+        else:
+            print("You don't have enough money to go there")
+    
+    elif ansstg in ("Frosthaven" , "frosthaven" , "Go to Frosthaven" , "go to Frosthaven"):
+        if money >= 20:
+            money = money - 20
+            print("You pay the driver and he takes you to Frosthaven")
+            frosthaven()
+        else:
+            print("You don't have enough money to go there")
+    
+    elif ansstg in ("Eldoria" , "eldoria" , "Go to Eldoria" , "go to Eldoria"):
+        if money >= 25:
+            money = money - 25
+            print("You pay the driver and he takes you to Eldoria")
+            eldoria()
+        else:
+            print("You don't have enough money to go there")
+    
+    elif ansstg in ("Go to different region" , "go to different region"):
+        print("Hereare the regions you can go to:")
+        print("-Tigerclaw: 30ξ")
+        print("-Formandi: 35ξ")
+        print("-Scribbled out name: 350ξ")
+        ansreg = input("Where do you want to go? ")
+        if ansreg in ("Tigerclaw" , "tigerclaw" , "Go to Tigerclaw" , "go to Tigerclaw"):
+            if money >= 30:
+                money = money - 30
+                print("You pay the driver and he takes you to Tigerclaw")
+                
+            else:
+                print("You don't have enough money to go there")
+        elif ansreg in ("Formandi" , "formandi" , "Go to Formandi" , "go to Formandi"):
+            if money >= 35:
+                money = money - 35
+                print("You pay the driver and he takes you to Formandi")
+                
+            else:
+                print("You don't have enough money to go there")
+        elif ansreg in ("Scribbled out name" , "scribbled out name" , "Go to Scribbled out name" , "go to Scribbled out name"):
+            print("You ask the driver about the scribbled out name region, he tells you that he would rather not talk about it and that you should just stay away from it, you get the feeling that there is something really bad in that region and that the driver is trying to protect you from it, you decide to not ask about it anymore and just go back to the stagecoach station")
+            ansstg
+    elif ansstg in ("Save game" , "save game" , "Save" , "save"):
+        save_game()
+        print("Game saved successfully!")
+        ansstg
+
+
+
+
 def startinnroom():
     global sleptininn , health , stamina , maxhealth , maxstamina , player_inventory , money , Level , XP, player_location
 
@@ -1640,79 +1725,7 @@ def village():
             startvillinn()
                     
         elif answervill in ("Go to stagecoach station" , "go to stagecoach station" , "Enter stagecoach station" , "enter stagecoach station"):
-            print("You enter the stagecoach station, there is a driver and a few horses, the driver tells you that he can take you to different locations for a price")
-            print("Here are the locations you can go to:")
-            print("-Littlepeak Mountain, Kamaranda: 10ξ")
-            print("-Durian City, Kamaranda: 15ξ")
-            print("-River Village, Kamaranda: 12ξ")
-            print("-Frosthaven, Kamaranda: 20ξ")
-            print("-Eldoria, Kamaranda: 25ξ")
-            print("-Go to different region: 30ξ")
-            ansstg = input("Where do you want to go? ")
-
-            if ansstg in ("Littlepeak Mountain" , "littlepeak mountain" , "Go to Littlepeak Mountain" , "go to Littlepeak Mountain"):
-                if money >= 10:
-                    money = money - 10
-                    print("You pay the driver and he takes you to Littlepeak Mountain")
-                    littlepeak()
-                else:
-                    print("You don't have enough money to go there")
-
-            elif ansstg in ("Durian City" , "durian city" , "Go to Durian City" , "go to Durian City"):
-                if money >= 15:
-                    money = money - 15
-                    print("You pay the driver and he takes you to Durian City")
-                    duriancity()
-                else:
-                    print("You don't have enough money to go there")
-            
-            elif ansstg in ("River Village" , "river village" , "Go to River Village" , "go to River Village"):
-                if money >= 12:
-                    money = money - 12
-                    print("You pay the driver and he takes you to River Village")
-                    rivervillage()
-                else:
-                    print("You don't have enough money to go there")
-            
-            elif ansstg in ("Frosthaven" , "frosthaven" , "Go to Frosthaven" , "go to Frosthaven"):
-                if money >= 20:
-                    money = money - 20
-                    print("You pay the driver and he takes you to Frosthaven")
-                    frosthaven()
-                else:
-                    print("You don't have enough money to go there")
-            
-            elif ansstg in ("Eldoria" , "eldoria" , "Go to Eldoria" , "go to Eldoria"):
-                if money >= 25:
-                    money = money - 25
-                    print("You pay the driver and he takes you to Eldoria")
-                    eldoria()
-                else:
-                    print("You don't have enough money to go there")
-            
-            elif ansstg in ("Go to different region" , "go to different region"):
-                print("Hereare the regions you can go to:")
-                print("-Tigerclaw: 30ξ")
-                print("-Formandi: 35ξ")
-                print("-Scribbled out name: 350ξ")
-                ansreg = input("Where do you want to go? ")
-                if ansreg in ("Tigerclaw" , "tigerclaw" , "Go to Tigerclaw" , "go to Tigerclaw"):
-                    if money >= 30:
-                        money = money - 30
-                        print("You pay the driver and he takes you to Tigerclaw")
-                        
-                    else:
-                        print("You don't have enough money to go there")
-                elif ansreg in ("Formandi" , "formandi" , "Go to Formandi" , "go to Formandi"):
-                    if money >= 35:
-                        money = money - 35
-                        print("You pay the driver and he takes you to Formandi")
-                        
-                    else:
-                        print("You don't have enough money to go there")
-                elif ansreg in ("Scribbled out name" , "scribbled out name" , "Go to Scribbled out name" , "go to Scribbled out name"):
-                    print("You ask the driver about the scribbled out name region, he tells you that he would rather not talk about it and that you should just stay away from it, you get the feeling that there is something really bad in that region and that the driver is trying to protect you from it, you decide to not ask about it anymore and just go back to the stagecoach station")
-                    ansstg
+            startvillstagecoach()
 
         elif answervill in ("Save game" , "save game" , "Save" , "save"):
             save_game()
