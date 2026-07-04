@@ -328,7 +328,7 @@ def startvillstagecoach():
         inventory()
 
     elif ansstg in ("Help" , "help" , "Help me" , "help me"):
-          print("Go back: Go back to the village\nCheck inventory: Check your inventory\nCheck stats: Check your stats\nSave game: Save your game\nGo to [location]: Go to a specific location, you can also type the name of the location to go there\n")
+          print("\nGo back: Go back to the village\nCheck inventory: Check your inventory\nCheck stats: Check your stats\nSave game: Save your game\nGo to [location]: Go to a specific location, you can also type the name of the location to go there\n")
     
     elif ansstg in ("Go back" , "go back" , "Leave" , "leave"):
         print("You leave the stagecoach station and go back to the village...")
@@ -389,7 +389,7 @@ def startinnroom():
                                     print("You leave the room and go back to the inn")
                                     startvillinn()
         elif ansinnroom in ("Help" , "help" , "Help me" , "help me"):
-                                    print("Sleep: Sleep in your room to restore health and stamina\nCheck inventory: Check your inventory\nCheck stats: Check your stats\nRead books: Read the books in your room to gain knowledge and XP\nSave game: Save your game\nGo back: Go back to the inn\n")
+                                    print("\nSleep: Sleep in your room to restore health and stamina\nCheck inventory: Check your inventory\nCheck stats: Check your stats\nRead books: Read the books in your room to gain knowledge and XP\nSave game: Save your game\nGo back: Go back to the inn\n")
         else:
                                     print("Doesn't look like that's working, you just stand there")
 
@@ -1782,7 +1782,7 @@ def village():
             print("Game saved successfully!")
         
         elif answervill in ("Help" , "help" , "Help me" , "help me"):
-            print("Go to [location]: Go to a specific location, you can also type the name of the location to go there\nCheck inventory: Check your inventory\nCheck stats: Check your stats\nSave game: Save your game\nHelp: No way! Get a list of all the actions you can do\n")
+            print("\n\nGo to [location]: Go to a specific location, you can also type the name of the location to go there\nCheck inventory: Check your inventory\nCheck stats: Check your stats\nSave game: Save your game\nHelp: No way! Get a list of all the actions you can do\n")
 
         else:
             print("Doesn't look like that's working, you just stand there")
@@ -1852,7 +1852,7 @@ def start_game_area():
             print("Game saved successfully!")   
 
         elif answer in ("Help" , "help" , "Help me" , "help me"):
-              print("Check inventory: Check your inventory\nCheck stats: Check your stats\nSave game: Save your game\nLook around: Look around I guess?\nGo to [location]: Go to a specific location, you can also type the name of the location to go there\nHelp: No way! Get a list of all the actions you can do\n")                   
+              print("\nCheck inventory: Check your inventory\nCheck stats: Check your stats\nSave game: Save your game\nLook around: Look around I guess?\nGo to [location]: Go to a specific location, you can also type the name of the location to go there\nHelp: No way! Get a list of all the actions you can do\n")                   
         
         else:
             print("Doesn't look like that's working, you just stand there")
