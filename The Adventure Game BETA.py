@@ -670,12 +670,27 @@ def startvillinn():
                     save_game()
                     print("Game saved successfully!") 
 
+                elif ansinn in ("Check stats" , "check stats" , "Stats" , "stats"):
+                    print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth , "\n")
+                    print("Stamina:", stamina , "out of" , maxstamina , "\n")
+                    print("Money:", "ξ" , money , "\n")
+                    print("Level:", Level , "\n")
+                    print("XP:", XP)
+                    print("You have" , 25 - XP , "XP until you level up" , "\n")
+                    if health <= 3:
+                        print("You are very low on health, you should find something to eat or drink soon")
+                    if stamina <= 3:
+                        print("You are very low on stamina, you should find something to eat or drink soon")
+                
+                elif ansinn in ("Check inventory" , "check inventory" , "Inventory" , "inventory"):
+                    inventory()
                 else:
                     print("Doesn't look like that's working, you just stand there")
 
 
 def startvilltavern():
-    global sleptininn , healtth , stamina , maxhealth , maxstamina , player_inventory , money , Level , XP, player_location
+    global sleptininn , health , stamina , maxhealth , maxstamina , player_inventory , money , Level , XP, player_location
+    player_location = "startvilltavern"
 
     while True:
                     print("You enter the tavern, there is a bartender and a few patrons, as well as an angry drunkard")
@@ -810,9 +825,31 @@ def startvilltavern():
                     elif answertav in ("Leave" , "leave" , "Exit" , "exit"):
                         print("You leave the tavern")
                         village()
+
+                    elif answertav in ("Check stats" , "check stats" , "Stats" , "stats"):
+                        print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth , "\n")
+                        print("Stamina:", stamina , "out of" , maxstamina , "\n")
+                        print("Money:", "ξ" , money , "\n")
+                        print("Level:", Level , "\n")
+                        print("XP:", XP)
+                        print("You have" , 25 - XP , "XP until you level up" , "\n")
+                        if health <= 3:
+                            print("You are very low on health, you should find something to eat or drink soon")
+                        if stamina <= 3:
+                            print("You are very low on stamina, you should find something to eat or drink soon")
+
+                        else:
+                            print("Doesn't look like that's working, you just stand there")
+
+                    elif answertav in ("Check inventory" , "check inventory" , "Inventory" , "inventory"):
+                        inventory()
+                    
+                    elif answertav in ("Save game" , "save game" , "Save" , "save"):
+                        save_game()
+                        print("Game saved successfully!")
+
                     else:
-                        print("Doesn't look like that's working, you just stand there") 
-                        answertav
+                        print("Doesn't look like that's working, you just stand there")
 
 def addToInventory(item):
     player_inventory.append(item)
@@ -1812,7 +1849,10 @@ def start_game_area():
 
         elif answer in ("Save game" , "save game" , "Save" , "save"):
             save_game()
-            print("Game saved successfully!")                      
+            print("Game saved successfully!")   
+
+        elif answer in ("Help" , "help" , "Help me" , "help me"):
+              print("Check inventory: Check your inventory\nCheck stats: Check your stats\nSave game: Save your game\nLook around: Look around I guess?\nGo to [location]: Go to a specific location, you can also type the name of the location to go there\nHelp: No way! Get a list of all the actions you can do\n")                   
         
         else:
             print("Doesn't look like that's working, you just stand there")
