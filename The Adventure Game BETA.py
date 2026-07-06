@@ -189,10 +189,14 @@ Tip: Dont die
             
             if answermainmenu in ["Create" , "create"]:
                 print("Create new save file or temporarily start a new game? (Type 'new' for new save file or 'temp' for temporary game, temp works best if you are not connected to the game dev repo)")
-                if input(">>>") in ["new" , "New"]:
+                choice = input(">>>").strip()
+                if choice in ["new" , "New"]:
                     create_game()
-                if input(">>>") in ["temp" , "Temp"]:
+                elif choice in ["temp" , "Temp"]:
                     start_game_area()
+                else:
+                    print("Not a valid option.")
+                    main_menu()
             
             elif answermainmenu in ["Load" , "load"]:
                 
