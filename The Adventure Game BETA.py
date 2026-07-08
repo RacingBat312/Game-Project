@@ -248,8 +248,24 @@ def debug():
         elif debuginput in ("goToVillage"):
             village()
 
+def check_stats():
+    global health , stamina , money , inventory , maxhealth , maxstamina , XP , Level
+
+    print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth , "\n")
+    print("Stamina:", stamina , "out of" , maxstamina , "\n")
+    print("Money:", "ξ" , money , "\n")
+    print("Level:", Level , "\n")
+    print("XP:", XP)
+    print("You have" , 25 - XP , "XP until you level up" , "\n")    
+    if health <= 3:
+        print("You are very low on health, you should find something to eat or drink soon")
+    elif stamina <= 3:
+        print("You are very low on stamina, you should find something to eat or drink soon")
+
+
 def startvillblacksmith():
     global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP
+    player_location = "startvillblacksmith"
 
     while True:
             
@@ -324,12 +340,22 @@ def startvillblacksmith():
                                                 print("You stay in the blacksmith shop")
                                                 answerblacksm3 
 
-                                if answerblacksm in ("Leave" , "leave" , "Exit" , "exit"):
+                elif answerblacksm in ("Leave" , "leave" , "Exit" , "exit"):
                                     print("You leave the blacksmith shop")
                                     village()
 
+                elif answerblacksm in ("Save" , "save" , "Save game" , "save game"):
+                                    save_game()
+
+                elif answerblacksm in ("Stats" , "stats" , "Check stats" , "check stats"):
+                                    check_stats()
+                
+                elif answerblacksm in ("Inventory" , "inventory" , "Check inventory" , "check inventory"):
+                                    inventory()
+
 def startvillstore():
     global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP
+    player_location = "startvillstore"
     
     while True:
             
@@ -606,6 +632,13 @@ def startvillstore():
                     elif buy in ("Go back" , "go back"):
                         print("You stop looking at the supplies")
                         answergs
+
+                elif answergs in ("Check inventory" , "check inventory" , "Inventory" , "inventory"):
+                    inventory()
+                elif answergs in ("Check stats" , "check stats" , "Stats" , "stats"):
+                    check_stats()
+                elif answergs in ("Save game" , "save game" , "Save" , "save"):
+                    save_game()
                 elif answergs in ("Leave" , "leave" , "Exit" , "exit"):
                     print("You leave the general store")
                     village()
@@ -693,6 +726,10 @@ def startvillstagecoach():
         save_game()
         print("Game saved successfully!")
         ansstg
+
+    elif ansstg in ("Check stats" , "check stats" , "Stats" , "stats"):
+        check_stats()
+
     
     elif ansstg in ("Check inventory" , "check inventory" , "Inventory" , "inventory"):
         inventory()
@@ -732,17 +769,7 @@ def startinnroom():
         elif ansinnroom in ("Check inventory" , "check inventory" , "Inventory" , "inventory"):
                                     inventory()
         elif ansinnroom in ("Check stats" , "check stats" , "Stats" , "stats"):
-                                            print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth , "\n")
-                                            print("Stamina:", stamina , "out of" , maxstamina , "\n")
-                                            print("Money:", "ξ" , money , "\n")
-                                            print("Level:", Level , "\n")
-                                            print("XP:", XP)
-                                            print("You have" , 25 - XP , "XP until you level up" , "\n")
-                                            if health <= 3:
-                                                print("You are very low on health, you should find something to eat or drink soon")
-                                            if stamina <= 3:
-                                                print("You are very low on stamina, you should find something to eat or drink soon")
-                                            ansinnroom
+                                    check_stats()
 
         elif ansinnroom in ("Read books" , "read books" , "Read" , "read"):
                                     print("You read the books and gain some knowledge")
@@ -1041,16 +1068,7 @@ def startvillinn():
                     print("Game saved successfully!") 
 
                 elif ansinn in ("Check stats" , "check stats" , "Stats" , "stats"):
-                    print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth , "\n")
-                    print("Stamina:", stamina , "out of" , maxstamina , "\n")
-                    print("Money:", "ξ" , money , "\n")
-                    print("Level:", Level , "\n")
-                    print("XP:", XP)
-                    print("You have" , 25 - XP , "XP until you level up" , "\n")
-                    if health <= 3:
-                        print("You are very low on health, you should find something to eat or drink soon")
-                    if stamina <= 3:
-                        print("You are very low on stamina, you should find something to eat or drink soon")
+                    check_stats()
                 
                 elif ansinn in ("Check inventory" , "check inventory" , "Inventory" , "inventory"):
                     inventory()
@@ -1197,19 +1215,7 @@ def startvilltavern():
                         village()
 
                     elif answertav in ("Check stats" , "check stats" , "Stats" , "stats"):
-                        print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth , "\n")
-                        print("Stamina:", stamina , "out of" , maxstamina , "\n")
-                        print("Money:", "ξ" , money , "\n")
-                        print("Level:", Level , "\n")
-                        print("XP:", XP)
-                        print("You have" , 25 - XP , "XP until you level up" , "\n")
-                        if health <= 3:
-                            print("You are very low on health, you should find something to eat or drink soon")
-                        if stamina <= 3:
-                            print("You are very low on stamina, you should find something to eat or drink soon")
-
-                        else:
-                            print("Doesn't look like that's working, you just stand there")
+                        check_stats()
 
                     elif answertav in ("Check inventory" , "check inventory" , "Inventory" , "inventory"):
                         inventory()
@@ -1740,6 +1746,9 @@ def inventory():
                         else:
                             print("You do not have that item")
                             return
+    elif check in ("Leave" , "leave" , "Exit" , "exit"):
+                        print("You leave the inventory")
+                        return
     else:
                         print("That item doesn't exist in this universe")
                         return
@@ -1848,12 +1857,7 @@ def village():
             inventory()
         
         elif answervill in ("Check stats" , "check stats" , "Stats" , "stats"):
-                    print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth , "\n")
-                    print("Stamina:", stamina , "out of" , maxstamina , "\n")
-                    print("Money:", "ξ" , money , "\n")
-                    print("Level:", Level , "\n")
-                    print("XP:", XP)
-                    print("You have" , 25 - XP , "XP until you level up" , "\n")    
+                    check_stats()
                     if health <= 3:
                         print("You are very low on health, you should find something to eat or drink soon")
                     elif stamina <= 3:
@@ -1870,21 +1874,8 @@ def village():
            startvilltavern()
             
         elif answervill in ("Check inventory" , "check inventory" , "Inventory" , "inventory"):
-            inventory()
-        
-        elif answervill in ("Check stats" , "check stats" , "Stats" , "stats"):
-                    print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth , "\n")
-                    print("Stamina:", stamina , "out of" , maxstamina , "\n")
-                    print("Money:", "ξ" , money , "\n")
-                    print("Level:", Level , "\n")
-                    print("XP:", XP)
-                    print("You have" , 25 - XP , "XP until you level up" , "\n")    
-                    if health <= 3:
-                        print("You are very low on health, you should find something to eat or drink soon")
-                    elif stamina <= 3:
-                        print("You are very low on stamina, you should find something to eat or drink soon")   
+            inventory()   
                                            
-    
         elif answervill in ("Go to general store" , "go to general store" , "Enter general store" , "enter general store"):
             startvillstore()
            
