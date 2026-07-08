@@ -100,6 +100,14 @@ def load_game():
                     startinnroom()
                 elif player_location == "startvillinn":
                     startvillinn()
+                elif player_location == "startvillblacksmith":
+                    startvillblacksmith()
+                elif player_location == "startvillstore":
+                    startvillstore()
+                elif player_location == "startvillinnroom":
+                    startinnroom()
+                elif player_location == "startvillstagecoach":
+                    startvillstagecoach()
                 else:
                     start_game_area()
                 break
