@@ -108,6 +108,8 @@ def load_game():
                     startinnroom()
                 elif player_location == "startvillstagecoach":
                     startvillstagecoach()
+                elif player_location == "startvilltavern":
+                    startvilltavern()
                 else:
                     start_game_area()
                 break
@@ -272,7 +274,7 @@ def check_stats():
 
 
 def startvillblacksmith():
-    global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP
+    global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP , blacksmith_looted
     player_location = "startvillblacksmith"
 
     while True:
