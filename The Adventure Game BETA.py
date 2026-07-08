@@ -189,10 +189,14 @@ Tip: Dont die
             
             if answermainmenu in ["Create" , "create"]:
                 print("Create new save file or temporarily start a new game? (Type 'new' for new save file or 'temp' for temporary game, temp works best if you are not connected to the game dev repo)")
-                if input(">>>") in ["new" , "New"]:
+                choice = input(">>>").strip()
+                if choice in ["new" , "New"]:
                     create_game()
-                elif input(">>>") in ["temp" , "Temp"]:
+                elif choice in ["temp" , "Temp"]:
                     start_game_area()
+                else:
+                    print("Not a valid option.")
+                    main_menu()
             
             elif answermainmenu in ["Load" , "load"]:
                 
@@ -1755,6 +1759,109 @@ def village():
         
         if answervill in ("Leave" , "leave" , "Go back" , "go back"):
                 print("There is not much of a point in going back")
+
+
+        if answervill in ("Enter blacksmith" , "enter blacksmith" , "Go to blacksmith" , "go to blacksmith"):
+            
+            while True:
+            
+                print("You enter the blacksmith shop, it's completely abandoned...")
+                if blacksmith_looted == True:
+                    print("You already looted the blacksmith, there is nothing else to find")
+                    print("Do you want to leave the blacksmith?")
+                    leaveblacksm = input("Leave blacksmith? ")
+                    if leaveblacksm in ("Yes" , "yes" , "Y" , "y"):
+                        print("You leave the blacksmith shop")
+                        village()
+                    else:
+                        print("You stay in the blacksmith shop")
+                        answerblacksm2 = input("What do you do now? ")
+                        if answerblacksm2 in ("Look around" , "look around" , "Search" , "search" , "Search the blacksmith" , "search the blacksmith"):
+                            print("You already searched the blacksmith, there is nothing else to find")
+                            print("Do you want to leave the blacksmith?")
+                            leaveblacksm = input("Leave blacksmith? ")
+                            if leaveblacksm in ("Yes" , "yes" , "Y" , "y"):
+                                print("You leave the blacksmith shop")
+                                village()
+                            else:
+                                print("You stay in the blacksmith shop")
+                                answerblacksm2       
+                answerblacksm = input("What do you do here? ")                    
+                if answerblacksm in ("Look around" , "look around" , "Search" , "search" , "Search the blacksmith" , "search the blacksmith"):
+                                print("You do find an Old sword , a Shield and a Dagger on the counter, as well as ξ25 in the cash register")
+                                pickup = input("Do you want to pick them up? ")
+                                if pickup in ("Yes" , "yes" , "Y" , "y"):
+                                    addToInventory("Old sword")
+                                    addToInventory("Shield")
+                                    addToInventory("Dagger")
+                                    money = money + 25
+                                    print("You obviously take the money as well, you now have ξ" , money) 
+                                    print("Do you want to leave the blacksmith?")
+                                    leaveblacksm = input("Leave blacksmith? ")
+                                    if leaveblacksm in ("Yes" , "yes" , "Y" , "y"):
+                                        print("You leave the blacksmith shop")
+                                        blacksmith_looted = True
+                                        village()
+                                    else:
+                                        print("You stay in the blacksmith shop")
+                                        answerblacksm2 = input("What do you do now? ")
+                                        if answerblacksm2 in ("Look around" , "look around" , "Search" , "search" , "Search the blacksmith" , "search the blacksmith"):
+                                            print("You already searched the blacksmith, there is nothing else to find")
+                                            print("Do you want to leave the blacksmith?")
+                                            leaveblacksm = input("Leave blacksmith? ")
+                                            if leaveblacksm in ("Yes" , "yes" , "Y" , "y"):
+                                                print("You leave the blacksmith shop")
+                                                village()
+                                            else:
+                                                print("You stay in the blacksmith shop")
+                                                answerblacksm2
+                                else:
+                                    print("You leave the items on the counter")
+                                    print("Do you want to leave the blacksmith?")
+                                    leaveblacksm = input("Leave blacksmith? ")
+                                    if leaveblacksm in ("Yes" , "yes" , "Y" , "y"):
+                                        print("You leave the blacksmith shop")
+                                        village()
+                                    elif leaveblacksm in ("No" , "no" , "N" , "n"):
+                                        print("You stay in the blacksmith shop")
+                                        answerblacksm3 = input("What do you do now? ")
+                                        if answerblacksm3 in ("Look around" , "look around" , "Search" , "search" , "Search the blacksmith" , "search the blacksmith"):
+                                            print("You already searched the blacksmith, there is nothing else to find")
+                                            print("Do you want to leave the blacksmith?")
+                                            leaveblacksm = input("Leave blacksmith? ")
+                                            if leaveblacksm in ("Yes" , "yes" , "Y" , "y"):
+                                                print("You leave the blacksmith shop")
+                                                village()
+                                            else:
+                                                print("You stay in the blacksmith shop")
+                                                answerblacksm3 
+
+                                if answerblacksm in ("Leave" , "leave" , "Exit" , "exit"):
+                                    print("You leave the blacksmith shop")
+                                    village()
+        
+                
+        if answervill in ("Enter tavern" , "enter tavern" , "Go to tavern" , "go to tavern"):
+           startvilltavern()
+            
+        elif answervill in ("Check inventory" , "check inventory" , "Inventory" , "inventory"):
+            inventory()
+        
+        elif answervill in ("Check stats" , "check stats" , "Stats" , "stats"):
+                    print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth , "\n")
+                    print("Stamina:", stamina , "out of" , maxstamina , "\n")
+                    print("Money:", "ξ" , money , "\n")
+                    print("Level:", Level , "\n")
+                    print("XP:", XP)
+                    print("You have" , 25 - XP , "XP until you level up" , "\n")    
+                    if health <= 3:
+                        print("You are very low on health, you should find something to eat or drink soon")
+                    elif stamina <= 3:
+                        print("You are very low on stamina, you should find something to eat or drink soon")   
+                                           
+    
+        elif answervill in ("Go to general store" , "go to general store" , "Enter general store" , "enter general store"):
+            startvillstore()
 
         if answervill in ("Enter blacksmith" , "enter blacksmith" , "Go to blacksmith" , "go to blacksmith"):
             startvillblacksmith()
