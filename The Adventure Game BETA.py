@@ -1863,6 +1863,31 @@ def village():
         elif answervill in ("Go to general store" , "go to general store" , "Enter general store" , "enter general store"):
             startvillstore()
 
+        if answervill in ("Enter blacksmith" , "enter blacksmith" , "Go to blacksmith" , "go to blacksmith"):
+            startvillblacksmith()
+                    
+        if answervill in ("Enter tavern" , "enter tavern" , "Go to tavern" , "go to tavern"):
+           startvilltavern()
+            
+        elif answervill in ("Check inventory" , "check inventory" , "Inventory" , "inventory"):
+            inventory()
+        
+        elif answervill in ("Check stats" , "check stats" , "Stats" , "stats"):
+                    print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth , "\n")
+                    print("Stamina:", stamina , "out of" , maxstamina , "\n")
+                    print("Money:", "ξ" , money , "\n")
+                    print("Level:", Level , "\n")
+                    print("XP:", XP)
+                    print("You have" , 25 - XP , "XP until you level up" , "\n")    
+                    if health <= 3:
+                        print("You are very low on health, you should find something to eat or drink soon")
+                    elif stamina <= 3:
+                        print("You are very low on stamina, you should find something to eat or drink soon")   
+                                           
+    
+        elif answervill in ("Go to general store" , "go to general store" , "Enter general store" , "enter general store"):
+            startvillstore()
+           
         elif answervill in ("Enter inn" , "enter inn" , "Go to inn" , "go to inn"):
             startvillinn()
                     
@@ -1947,7 +1972,9 @@ def start_game_area():
               print("\nCheck inventory: Check your inventory\nCheck stats: Check your stats\nSave game: Save your game\nLook around: Look around I guess?\nGo to [location]: Go to a specific location, you can also type the name of the location to go there\nHelp: No way! Get a list of all the actions you can do\n")                   
         
         else:
-            print("Doesn't look like that's working, you just stand there")
+            print("Doesn't look like that's working, you just stand there..")
+
+
 
 
 # This is the main loop of the game, this place is fragile if you tamper with it, so be careful, also do not delete or move it in front of any functions or those areas will not be accessible (Code will be structurally unreachable)
