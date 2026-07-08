@@ -1944,16 +1944,7 @@ def start_game_area():
                         print("No one answers, you are all alone")
         
         elif answer in ("Check stats" , "check stats" , "Stats" , "stats"):
-                        print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth, "\n")
-                        print("Stamina:", stamina, "out of", maxstamina , "\n")
-                        print("Money:", "ξ" , money , "\n")
-                        print("Level:", Level , "\n")
-                        print("XP:", XP)
-                        print("You have" , 25 - XP , "XP until you level up" , "\n")
-                        if health <= 3:
-                            print("You are very low on health, you should find something to eat or drink soon")
-                        if stamina <= 3:
-                            print("You are very low on stamina, you should find something to eat or drink soon") 
+                    check_stats()
 
         elif answer in ("Save game" , "save game" , "Save" , "save"):
             save_game()
