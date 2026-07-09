@@ -401,6 +401,9 @@ def startvillblacksmith():
                 elif answerblacksm in ("Inventory" , "inventory" , "Check inventory" , "check inventory"):
                                     inventory()
 
+                elif answerblacksm in ("Debug" , "debug"):
+                                    debug()
+
 def startvillstore():
     global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP
     player_location = "startvillstore"
@@ -690,6 +693,8 @@ def startvillstore():
                 elif answergs in ("Leave" , "leave" , "Exit" , "exit"):
                     print("You leave the general store")
                     village()
+                elif answergs in ("Debug" , "debug"):
+                    debug()
 
 
 def startvillstagecoach():
@@ -788,6 +793,8 @@ def startvillstagecoach():
     elif ansstg in ("Go back" , "go back" , "Leave" , "leave"):
         print("You leave the stagecoach station and go back to the village...")
         village()
+    elif ansstg in ("Debug" , "debug"):
+        debug()
 
 
 def startinnroom():
@@ -835,8 +842,11 @@ def startinnroom():
                                     startvillinn()
         elif ansinnroom in ("Help" , "help" , "Help me" , "help me"):
                                     print("\nSleep: Sleep in your room to restore health and stamina\nCheck inventory: Check your inventory\nCheck stats: Check your stats\nRead books: Read the books in your room to gain knowledge and XP\nSave game: Save your game\nGo back: Go back to the inn\n")
+        elif ansinnroom in ("Debug" , "debug"):
+                                    debug()   
         else:
                                     print("Doesn't look like that's working, you just stand there")
+
 
 def barfight():
     global health , stamina , maxhealth , maxstamina , player_inventory , money , Level , XP, player_location
@@ -1126,6 +1136,8 @@ def startvillinn():
                 
                 elif ansinn in ("Check inventory" , "check inventory" , "Inventory" , "inventory"):
                     inventory()
+                elif ansinn in ("Debug" , "debug"):
+                    debug()
                 else:
                     print("Doesn't look like that's working, you just stand there")
 
@@ -1278,8 +1290,11 @@ def startvilltavern():
                         save_game()
                         print("Game saved successfully!")
 
+                    elif answertav in ("Debug" , "debug"):
+                        debug()
                     else:
                         print("Doesn't look like that's working, you just stand there")
+
 
 def addToInventory(item):
     player_inventory.append(item)
