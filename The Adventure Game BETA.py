@@ -1097,7 +1097,7 @@ def startvilltavern():
                         print("The bartender sympathizes with you and tells you that the village has been abandoned for a while, he says that the villagers left because of a monster that has been terrorizing the \nvillage, he also says that the monster is very strong and that you should be careful if you decide to go out and fight it")
                     elif answertav in ("Talk to patrons" , "talk to patrons"):
                         print("The patrons are all very drunk and don't have much to say, they just mumble incoherently and occasionally shout something about \'a monster\'")
-                    elif answertav in ("Order a drink" , "order a drink" , "Buy a drink" , "buy a drink"):
+                    elif answertav in ("Order a drink" , "order a drink" , "Buy a drink" , "buy a drink" , "Order" , "order" , "Buy" , "buy"):
                         print("The options are:")
                         print("-Ale: 2ξ")
                         print("-Wine: 3ξ")
