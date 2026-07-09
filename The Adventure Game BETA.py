@@ -118,7 +118,7 @@ def load_game():
 
 
 def game_over():
-    global health , stamina , money , inventory , maxhealth , maxstamina , XP , Level , creategamename
+    global health , stamina , money , player_inventory , maxhealth , maxstamina , XP , Level , creategamename
       
     if health <= 0:
         print("You have fallen and never woke up again. Game Over.")
