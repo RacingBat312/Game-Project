@@ -262,7 +262,7 @@ def check_stats():
     global health , stamina , money , inventory , maxhealth , maxstamina , XP , Level
 
     print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth , "\n")
-    print("Stamina:", stamina , "out of" , maxstamina , "\n")
+    print("Stamina:", "🗲 " * stamina , "or" , stamina , " out of " , maxstamina , "\n")
     print("Money:", "ξ" , money , "\n")
     print("Level:", Level , "\n")
     print("XP:", XP)
@@ -813,7 +813,9 @@ def barfight():
 
 
     recoil = 0
-    playhealth = health
+    initial_health = health
+    damage_sustained = 0
+    playhealth = initial_health
     comphealth = 10
 
     fighting1 = True
@@ -855,11 +857,13 @@ def barfight():
                 comphealth = comphealth - crtdmg
                 print("A crit!")
                 playhealth = playhealth - 1
+                damage_sustained = damage_sustained + 1
                 print("You get hit.\n")
             else:
                 comphealth = comphealth - atkdmg
                 print("You hit the enemy.")
                 playhealth = playhealth - comdmg
+                damage_sustained = damage_sustained + comdmg
                 print("You got hit.\n")
         elif atk == "defend" and comatk == "defend" and recoil == 0:
             print("You both defend.\n")
@@ -890,6 +894,7 @@ def barfight():
             else:
                 print("The drunkard gets a free hit!")
                 playhealth = playhealth - comdmg
+                damage_sustained = damage_sustained + comdmg
             recoil = 0
         elif atk == "debug":
             print("comphealth:", comphealth, "\n" , "playhealth:", playhealth, "\n" ,"recoil:", recoil)
@@ -899,7 +904,7 @@ def barfight():
                 fighting1 = False
                 print("You win!")
                 print("Your health is now ",playhealth," and the drunkard's health is ",comphealth,"\n")
-                health = health - playhealth
+                health = playhealth
                 money = money + 10
                 XP = XP + 10
                 print("The drunkard says that he's had a good fight and that he respects you, he then tells you to be careful out there and that the monster is no joke,\n along with giving you ξ10 for winning the fight as well as 10 XP")
@@ -911,10 +916,11 @@ def barfight():
                     village()
                 else:
                     print("You decide stay in the tavern")
-                    return
+                    startvilltavern()
         elif playhealth == 0 or playhealth == -1 or playhealth == -2:                                   
                 fighting1 = False
                 print("You lose and you are dragged out of the bar")
+                health = max(0, playhealth)
                 village()
         else:
             print("The fight continues.\n")
