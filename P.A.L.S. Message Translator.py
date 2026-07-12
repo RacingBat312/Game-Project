@@ -53,7 +53,7 @@ letter_to_number = {
 
 number_to_letter = {value: key for key, value in letter_to_number.items()}
 
-with open("message.txt", "r") as f:
+with open(r"F:\ProgramReliantFiles\message.txt", "r") as f:
     text = f.read().strip("[]")
     numbers = text.split("#")
 
