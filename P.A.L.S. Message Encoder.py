@@ -1,7 +1,7 @@
-#P.A.L.S. Message Translator Ver 1.0
-#'Handle with care' --- Pat C
+#P.A.L.S. Message Encoder
+#'Handle this with care as well pls' -- Pat C
 
-letter_to_number = {
+number_to_letter = {
 "a" : 1,
 "b" : 2,
 "c" : 3,
@@ -48,17 +48,21 @@ letter_to_number = {
 "Z" : 52,
 "," : 53,
 "." : 54,
-" " : 55
+" " : 55 
 }
 
-number_to_letter = {value: key for key, value in letter_to_number.items()}
+letter_to_number = {letter: number for letter, number in number_to_letter.items()}
 
-with open("message.txt", "r") as f:
+with open("toencode.txt", "r") as f:
     text = f.read().strip("[]")
-    numbers = text.split("#")
+    letters = text.split("#")
 
-translated = []
-for n in numbers:
-    translated.append(number_to_letter.get(int(n)))
+letters = []
+for ch in text:
+    letters.append(ch)
+    
+encoded = []
+for ch in letters:
+    encoded.append(str(letter_to_number.get(ch)))
 
-print("".join(translated))
+print("[" + "#".join(encoded) + "]")
