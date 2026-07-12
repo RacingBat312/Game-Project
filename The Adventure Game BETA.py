@@ -251,7 +251,6 @@ def debug():
     while debug == True:
             
         print("Debug enabled...")
-        print("ONE use per activation")
         debuginput = input("cmd//> ")
         if debuginput in ("DEBUG_OFF"):
             debug = False
@@ -278,7 +277,6 @@ def debug():
             stamina = maxstamina
             print("Stamina refreshed to", stamina)
         elif debuginput in ("RefreshHe+St"):
-            global health, stamina
             health = maxhealth
             stamina = maxstamina
             print("Health and Stamina refreshed to", health, "and", stamina)
@@ -287,7 +285,6 @@ def debug():
             XP = XP + 10
             print("Added 10 XP, you now have", XP, "XP")
         elif debuginput in ("Add25XP"):
-            global XP
             XP = XP + 25
             print("Added 25 XP, you now have", XP, "XP")
         elif debuginput in ("Add1Level"):
