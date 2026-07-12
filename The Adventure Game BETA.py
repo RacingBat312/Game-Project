@@ -248,49 +248,49 @@ if XP >= 25:
 
 def debug():
     debug = True
-    while debug == True:
             
-        print("Debug enabled...")
-        debuginput = input("cmd//> ")
-        if debuginput in ("DEBUG_OFF"):
-            debug = False
-        elif debuginput in ("goToStartVillage"):
-            village()
-        elif debuginput in ("goToStartVillTavern"):
-            startvilltavern()
-        elif debuginput in ("goToStartVillStore"):
-            startvillstore()
-        elif debuginput in ("goToStartVillBlacksmith"):
-            startvillblacksmith()
-        elif debuginput in ("goToStartVillInn"):
-            startvillinn()
-        elif debuginput in ("goToStartVillInnRoom"):
-            startinnroom()
-        elif debuginput in ("goToStartVillStagecoach"):
-            startvillstagecoach()
-        elif debuginput in ("RefreshHealth"):
-            global health
-            health = maxhealth
-            print("Health refreshed to", health)
-        elif debuginput in ("RefreshStamina"):
-            global stamina
-            stamina = maxstamina
-            print("Stamina refreshed to", stamina)
-        elif debuginput in ("RefreshHe+St"):
-            health = maxhealth
-            stamina = maxstamina
-            print("Health and Stamina refreshed to", health, "and", stamina)
-        elif debuginput in ("Add10XP"):
-            global XP
-            XP = XP + 10
-            print("Added 10 XP, you now have", XP, "XP")
-        elif debuginput in ("Add25XP"):
-            XP = XP + 25
-            print("Added 25 XP, you now have", XP, "XP")
-        elif debuginput in ("Add1Level"):
-            global Level
-            Level = Level + 1
-            print("Added 1 Level, you are now level", Level)
+    print("Debug enabled...")
+    print("ONE use per activation")
+    debuginput = input("cmd//> ")
+    if debuginput in ("DEBUG_OFF"):
+        debug = False
+    elif debuginput in ("goToStartVillage"):
+        village()
+    elif debuginput in ("goToStartVillTavern"):
+        startvilltavern()
+    elif debuginput in ("goToStartVillStore"):
+        startvillstore()
+    elif debuginput in ("goToStartVillBlacksmith"):
+        startvillblacksmith()
+    elif debuginput in ("goToStartVillInn"):
+        startvillinn()
+    elif debuginput in ("goToStartVillInnRoom"):
+        startinnroom()
+    elif debuginput in ("goToStartVillStagecoach"):
+        startvillstagecoach()
+    elif debuginput in ("RefreshHealth"):
+        global health
+        health = maxhealth
+        print("Health refreshed to", health)
+    elif debuginput in ("RefreshStamina"):
+        global stamina
+        stamina = maxstamina
+        print("Stamina refreshed to", stamina)
+    elif debuginput in ("RefreshHe+St"):
+        health = maxhealth
+        stamina = maxstamina
+        print("Health and Stamina refreshed to", health, "and", stamina)
+    elif debuginput in ("Add10XP"):
+        global XP
+        XP = XP + 10
+        print("Added 10 XP, you now have", XP, "XP")
+    elif debuginput in ("Add25XP"):
+        XP = XP + 25
+        print("Added 25 XP, you now have", XP, "XP")
+    elif debuginput in ("Add1Level"):
+        global Level
+        Level = Level + 1
+        print("Added 1 Level, you are now level", Level)
 
 
 def check_stats():

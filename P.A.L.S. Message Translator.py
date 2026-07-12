@@ -1,3 +1,4 @@
+lettersandsymbols = [
 "a" = 1
 "b" = 2
 "c" = 3
@@ -51,8 +52,16 @@
 "Y" = 51
 "Z" = 52
 "," = 53
-"." = 54
+"." = 54 ]
 
 with open("message.txt", "r") as f:
-    message = f.read()
+    message = f.read().splitlines()
 
+message = []
+for input in message:
+    inp = input.split(",") [0]
+
+def pick(letter):
+    num_letters = len(lettersandsymbols)
+    num_picked = (0, lettersandsymbols -1)
+    letter_picked = letter()
