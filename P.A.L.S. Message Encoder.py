@@ -53,7 +53,7 @@ number_to_letter = {
 
 letter_to_number = {letter: number for letter, number in number_to_letter.items()}
 
-with open("toencode.txt", "r") as f:
+with open("encode.txt", "r") as f:
     text = f.read().strip("[]")
     letters = text.split("#")
 

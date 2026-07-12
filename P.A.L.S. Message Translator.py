@@ -61,4 +61,4 @@ translated = []
 for n in numbers:
     translated.append(number_to_letter.get(int(n)))
 
-print("".join(translated))
+print("[" + "".join(translated) + "]")
