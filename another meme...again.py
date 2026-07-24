@@ -2,17 +2,17 @@ from time import sleep
 import os
 import string
 
-sleep(2)
+sleep(5)
 print("stinky")
-sleep(0.75)
+sleep(0.9)
 print("pussyclat")
-sleep(0.75)
+sleep(0.9)
 print("filetofish")
-sleep(1.1)
+sleep(1.35)
 print("dinidindididididididididiididididiididididididididididiidididididdiidididididididididididididiididididiid")
-sleep(1.75)
+sleep(2)
 print("bomboclat walahi")
-sleep(1.1)
+sleep(1.5)
 
 def print_tree(path, indent=""):
     try:
