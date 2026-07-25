@@ -10,6 +10,9 @@ Level = 1
 money = 0
 player_inventory = ["Map"]
 player_location = "start_game_area"
+stats_location = ""
+stats_province = ""
+
 
 #----------------------------------------------------------------------------------------
 
@@ -294,7 +297,7 @@ def debug():
 
 
 def check_stats():
-    global health , stamina , money , inventory , maxhealth , maxstamina , XP , Level
+    global health , stamina , money , inventory , maxhealth , maxstamina , XP , Level, stats_location
 
     print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth , "\n")
     print("Stamina:", "🗲 " * stamina , "or" , stamina , " out of " , maxstamina , "\n")
@@ -307,10 +310,16 @@ def check_stats():
     elif stamina <= 3:
         print("You are very low on stamina, you should find something to eat or drink soon")
 
+    print(f"Current location: {stats_location}")
+    print(f"Current province: {stats_province}")
+    print("\n")
+
 
 def startvillblacksmith():
-    global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP , blacksmith_looted
+    global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP , blacksmith_looted, stats_location, stats_province
     player_location = "startvillblacksmith"
+    stats_location = "Village / Blacksmith"
+    stats_province = "Kamaranda"
 
     while True:
             
@@ -390,6 +399,7 @@ def startvillblacksmith():
                                     village()
 
                 elif answerblacksm in ("Save" , "save" , "Save game" , "save game"):
+                                    print("Game saved successfully!")
                                     save_game()
 
                 elif answerblacksm in ("Stats" , "stats" , "Check stats" , "check stats"):
@@ -686,6 +696,7 @@ def startvillstore():
                 elif answergs in ("Check stats" , "check stats" , "Stats" , "stats"):
                     check_stats()
                 elif answergs in ("Save game" , "save game" , "Save" , "save"):
+                    print("Game saved successfully!")
                     save_game()
                 elif answergs in ("Leave" , "leave" , "Exit" , "exit"):
                     print("You leave the general store")
@@ -1140,8 +1151,10 @@ def startvillinn():
 
 
 def startvilltavern():
-    global sleptininn , health , stamina , maxhealth , maxstamina , player_inventory , money , Level , XP, player_location
+    global sleptininn , health , stamina , maxhealth , maxstamina , player_inventory , money , Level , XP, player_location , stats_province , stats_location
     player_location = "startvilltavern"
+    stats_location = "Village / Tavern"
+    stats_province = "Kamaranda"
 
     while True:
                     print("You enter the tavern, there is a bartender and a few patrons, as well as an angry drunkard")
@@ -1887,9 +1900,12 @@ def village():
 
 def start_game_area():
 
-    global health, stamina, money, Level, XP, maxhealth, maxstamina, player_location
+    global health, stamina, money, Level, XP, maxhealth, maxstamina, player_location , stats_location , stats_province
 
     player_location = "start_game_area"
+    stats_location = "???"
+    stats_province = "???"
+
     print("You wake up in a field...")
     
     while True:
