@@ -12,6 +12,9 @@ player_inventory = ["Map"]
 player_location = "start_game_area"
 stats_location = ""
 stats_province = ""
+weapon_damage = int()
+defence = int()
+equipped = {'weapon': None, 'Shield': None , 'Helmet': None, 'Boots': None, 'Gloves': None, 'Chestplate': None, 'Leggings': None}
 
 
 #----------------------------------------------------------------------------------------
@@ -26,13 +29,13 @@ blacksmith_looted = False
 
 def create_game():
 
-    global player_inventory , money , Level , XP , maxhealth , maxstamina , health , stamina  , creategamename
+    global player_inventory , money , Level , XP , maxhealth , maxstamina , health , stamina  , creategamename, weapon_damage, defence
 
     creategamename = input("What would you like to name your save file? (No special characters, unless you like crashes) ")
     
     import pickle
     
-    global player_inventory , money , Level , XP , maxhealth , maxstamina , health , stamina
+    global player_inventory , money , Level , XP , maxhealth , maxstamina , health , stamina , equipped
     game_state = {
           
         'player_inventory': player_inventory,
@@ -43,7 +46,10 @@ def create_game():
         'maxstamina': maxstamina,
         'health': health,
         'stamina': stamina,
-        'player_location': player_location
+        'player_location': player_location,
+        'equipped': equipped,
+        'weapon_damage': weapon_damage,
+        'defence': defence
 
     }
 
@@ -52,7 +58,7 @@ def create_game():
         start_game_area()
 
 def save_game():
-    global player_inventory , money , Level , XP , maxhealth , maxstamina , health , stamina  , creategamename, player_location
+    global player_inventory , money , Level , XP , maxhealth , maxstamina , health , stamina  , creategamename, player_location , equipped, weapon_damage, defence
 
     import pickle 
 
@@ -65,14 +71,17 @@ def save_game():
         'maxstamina': maxstamina,
         'health': health,
         'stamina': stamina,
-        'player_location': player_location    
+        'player_location': player_location,
+        'equipped': equipped,
+        'weapon_damage': weapon_damage,
+        'defence': defence    
     }
     
     with open(f'{creategamename}.pkl', 'wb') as f:
         pickle.dump(game_state, f)
 
 def load_game():
-    global player_inventory , money , Level , XP , maxhealth , maxstamina , health , stamina  , creategamename, player_location
+    global player_inventory , money , Level , XP , maxhealth , maxstamina , health , stamina  , creategamename, player_location , equipped, weapon_damage, defence
     
     import pickle
 
@@ -86,15 +95,18 @@ def load_game():
         try:
             with open(f'{loadname}.pkl', 'rb') as f:
                 game_state = pickle.load(f)
-                player_inventory = game_state['player_inventory']
-                money = game_state['money']
-                Level = game_state['Level']
-                XP = game_state['XP']
-                maxhealth = game_state['maxhealth']
-                maxstamina = game_state['maxstamina']
-                health = game_state['health']
-                stamina = game_state['stamina']
-                player_location = game_state['player_location']
+                player_inventory = game_state.get('player_inventory', player_inventory)
+                money = game_state.get('money', money)
+                Level = game_state.get('Level', Level)
+                XP = game_state.get('XP', XP)
+                maxhealth = game_state.get('maxhealth', maxhealth)
+                maxstamina = game_state.get('maxstamina', maxstamina)
+                health = game_state.get('health', health)
+                stamina = game_state.get('stamina', stamina)
+                player_location = game_state.get('player_location', player_location)
+                equipped = game_state.get('equipped', equipped)
+                weapon_damage = game_state.get('weapon_damage', weapon_damage)
+                defence = game_state.get('defence', defence)
                 creategamename = loadname
                 print("Game loaded successfully!")
                 if player_location == "village":
@@ -216,7 +228,7 @@ Tip: Dont die
                 load_game()
             
             else:
-                
+                print("")
                 import random 
 
                 responses = [
@@ -301,6 +313,8 @@ def check_stats():
 
     print("\nHealth:", "♥ " * health , "or" , health , " out of " , maxhealth , "\n")
     print("Stamina:", "🗲 " * stamina , "or" , stamina , " out of " , maxstamina , "\n")
+    print("Weapon Damage:" , "🗡 " * weapon_damage , "or" , weapon_damage , "\n")
+    print("Defence:" , "⛨ " * defence , "or" , defence , "\n")
     print("Money:", "ξ" , money , "\n")
     print("Level:", Level , "\n")
     print("XP:", XP)
@@ -312,6 +326,17 @@ def check_stats():
 
     print(f"Current location: {stats_location}")
     print(f"Current province: {stats_province}")
+
+    print("\n")
+    print("Equipped items:\n")
+    print("Weapon:", equipped.get('weapon', 'None'))
+    print("Shield:", equipped.get('Shield', 'None'))
+    print("Helmet:", equipped.get('Helmet', 'None'))
+    print("Boots:", equipped.get('Boots', 'None'))
+    print("Gloves:", equipped.get('Gloves', 'None'))
+    print("Chestplate:", equipped.get('Chestplate', 'None'))
+    print("Leggings:", equipped.get('Leggings', 'None'))
+
     print("\n")
 
 
@@ -414,6 +439,8 @@ def startvillblacksmith():
 def startvillstore():
     global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP
     player_location = "startvillstore"
+    stats_location = "Village / General Store"
+    stats_province = "Kamaranda"
     
     while True:
             
@@ -708,6 +735,9 @@ def startvillstore():
 def startvillstagecoach():
     global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP 
     player_location = "startvillstagecoach"
+    stats_location = "Village / Stagecoach"
+    stats_province = "Kamaranda"
+
             
     print("You enter the stagecoach station, there is a driver and a few horses, the driver tells you that he can take you to different locations for a price")
     print("Here are the locations you can go to:")
@@ -989,6 +1019,9 @@ def startvillinn():
       global sleptininn , health , stamina , maxhealth , maxstamina , player_inventory , money , Level , XP, player_location
 
       player_location = "startvillinn"
+      stats_location = "Village / Inn"
+      stats_province = "Kamaranda"
+
       print("You enter the inn, there is an innkeeper, a bartender and a few guests, the atmosphere is pretty chill, you can smell the alcohol in the air")
             
       while True:
@@ -1310,41 +1343,97 @@ def addToInventory(item):
     player_inventory.append(item)
     print("You have added", item, "to your inventory.")
 
+def equip_item(item):
+    global player_inventory, equipped, weapon_damage , defence , equip
+
+    if item not in player_inventory:
+        print("You don't have that item to equip.")
+        return
+    if item in ("Old sword", "old sword"):
+        equipped['weapon'] = item
+        weapon_damage = 3
+        print(f"You equip the {item}. Weapon damage is now {weapon_damage}.")
+    elif item in (" Worn dagger", "worn dagger"):
+        equipped['weapon'] = item
+        weapon_damage = 2
+        print(f"You equip the {item}. Weapon damage is now {weapon_damage}.")
+    elif item in ("Wooden shield" , "wooden shield"):
+        equipped['shield'] = item
+        defence = 2
+        print(f"You equip the {item}. It will help block attacks.")
+    else:
+        print("That item can't be equipped.")
+
+def unequip(slot):
+    global equipped, weapon_damage
+    if slot not in equipped:
+        print("No such equipment slot.")
+        return
+    if equipped[slot] is None:
+        print("Nothing is equipped in that slot.")
+        return
+    item = equipped[slot]
+    equipped[slot] = None
+    if slot == 'weapon':
+        weapon_damage = 0
+    print(f"You unequipped {item}.")
+
 def inventory():
-    global player_inventory, health, stamina, maxhealth, maxstamina
+    global player_inventory, health, stamina, maxhealth, maxstamina , equipped , unequip , weapon_damage , defence
     print("You have: ")
     for item in player_inventory:
                     print("-", item)
-    check = input("Do you want to use anything? ")
-    if check in ("Map" , "map"):
+    item = input("Do you want to use anything? ")
+    if item in ("Map" , "map"):
                         if "Map" in player_inventory: 
                             print("A map of Wildwood, It has the regions Kamaranda, Tigerclaw and Formandi, a piece of the map is ripped off")
                             return
                         else:
                             print("You do not have that item")
                             return
-    elif check in ("Old sword" , "old sword" , "Sword" , "sword"):
+    elif item in ("Old sword" , "old sword" , "Sword" , "sword"):
                         if "Old sword" in player_inventory:
                             print("An old rusty sword, not the best weapon in the world but will do so in a pinch")
-                            return
+                            print("Increases Weapon Damage by 3")
+                            print("Do you want to equip this item?")
+                            equip = input("Equip?")
+                            if equip in ("Y" , "y" , "Yes" , "yes"):
+                                  equip_item(item)
+                            else:
+                                  print("You decide not to equip it")
+                                  return     
                         else:
                             print("You do not have that item")
                             return
-    elif check in ("Shield" , "shield"):
-                        if "Shield" in player_inventory:
-                            print("A standard edition shield, if you didn't know already, its made of metal and is pretty heavy")
-                            return
+    elif item in ("Wooden Shield" , "wooden shield"):
+                        if "Wooden Shield" in player_inventory:
+                            print("A standard edition shield, if you didn't know already, its made of wood and is pretty heavy")
+                            print("Increases Defence by 2")
+                            print("Do you want to equip this item?")
+                            equip = input("Equip?")
+                            if equip in ("Y" , "y" , "Yes" , "yes"):
+                                  equip_item(item)
+                            else:
+                                  print("You decide not to equip it")
+                                  return
                         else:
                             print("You do not have that item")
                             return
-    elif check in ("Worn dagger" , "worn dagger" , "Dagger" , "dagger"):
-                        if "Dagger" in player_inventory:
+    elif item in ("Worn dagger" , "worn dagger"):
+                        if "Worn dagger" in player_inventory:
                             print("A small dagger, favorited by assassins that hide in hay carts")
-                            return
+                            print("Increases Weapon damage by 2")
+                            print("Do you want to equip this item?")
+                            equip = input("Equip?")
+                            if equip in ("Y" , "y" , "Yes" , "yes"):
+                                  equip_item(item)
+                            else:
+                                  print("You decide not to equip it")
+                                  return
                         else:
                             print("You do not have that item")
                             return
-    elif check in ("Ale" , "ale"):
+    elif item in ("Ale" , "ale"):
                         if "Ale" in player_inventory:
                             print("A bottle of ale, it has a bitter and fruity taste, it is a little bit refreshing and can help you relax")
                             print("Restores 1 health and 1 stamina")
@@ -1365,7 +1454,7 @@ def inventory():
                         else:
                             print("You do not have that item")
                             return
-    elif check in ("Wine" , "wine"):
+    elif item in ("Wine" , "wine"):
                         if "Wine" in player_inventory:
                             print("A bottle of wine, it has a sweet and fruity taste, it makes you feel fancy at dinner parties")
                             print("Restores 2 health and 1 stamina")
@@ -1386,7 +1475,7 @@ def inventory():
                         else:
                             print("You do not have that item")
                             return
-    elif check in ("Whiskey" , "whiskey"):
+    elif item in ("Whiskey" , "whiskey"):
                         if "Whiskey" in player_inventory:
                             print("A bottle of whiskey, it has a strong and smoky taste, it has notes of vanilla and toasted oak")
                             print("Restores 3 health and 2 stamina")
@@ -1407,7 +1496,7 @@ def inventory():
                         else:
                             print("You do not have that item")
                             return
-    elif check in ("Rum" , "rum"):
+    elif item in ("Rum" , "rum"):
                         if "Rum" in player_inventory:
                             print("A bottle of rum, it has a sweet and strong taste, it can be drunk as is or put into chocolate to give it a ZING!")
                             print("Restores 4 health and 3 stamina")
@@ -1428,7 +1517,7 @@ def inventory():
                         else:
                             print("You do not have that item")
                             return
-    elif check in ("Vodka" , "vodka"):
+    elif item in ("Vodka" , "vodka"):
                         if "Vodka" in player_inventory:
                             print("A bottle of vodka, it has a strong and powerful taste, it gives you a strong buzz and a warm feeling in your stomach")
                             print("Restores 5 health and 4 stamina")
@@ -1449,7 +1538,7 @@ def inventory():
                         else:
                             print("You do not have that item")
                             return
-    elif check in ("Water" , "water"):
+    elif item in ("Water" , "water"):
                         if "Water" in player_inventory:
                             print("A bottle of water, it has a refreshing and clean taste, it is essential for survival and can help you stay hydrated, it has the potential to be made into many things but for now it's just water")
                             print("It has no effects on your stats but it is refreshing and can be used in crafting and cooking")
@@ -1466,7 +1555,7 @@ def inventory():
                             print("You do not have that item")
                             return
 
-    elif check in ("Health potion" , "health potion"):
+    elif item in ("Health potion" , "health potion"):
                         if "Health potion" in player_inventory:
                             print("A health potion, it has a bright red color and a sweet taste, it is used to restore health and can be very useful in combat")
                             print("Restores 5 health")
@@ -1485,7 +1574,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Stamina potion" , "stamina potion"):
+    elif item in ("Stamina potion" , "stamina potion"):
                         if "Stamina potion" in player_inventory:
                             print("A stamina potion, it has a bright blue color and a sweet taste with the taste of energy so powerful great Elder Sebastian would argue with, it is used to restore stamina and can be very useful in combat")
                             print("Restores 5 stamina")
@@ -1504,7 +1593,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Bread" , "bread"):
+    elif item in ("Bread" , "bread"):
                         if "Bread" in player_inventory:
                             print("A loaf of bread, it has a soft and fluffy texture with a slightly sweet taste, it is a staple food for any adventurer and can be used to restore health in a pinch")
                             print("Restores 2 health")
@@ -1523,7 +1612,7 @@ def inventory():
                             print("You do not have that item")
                             return
                             
-    elif check in ("Apple" , "apple"):
+    elif item in ("Apple" , "apple"):
                         if "Apple" in player_inventory:
                             print("A red apple, it has a crisp and juicy texture with a sweet and slightly tart taste, it is a healthy snack that can be used to restore health in a pinch")
                             print("Restores 1 health")
@@ -1542,7 +1631,7 @@ def inventory():
                             print("You do not have that item")
                             return
                         
-    elif check in ("Cheese" , "cheese"):
+    elif item in ("Cheese" , "cheese"):
                         if "Cheese" in player_inventory:
                             print("A block of cheese, it has a creamy and smooth texture with a mild and slightly tangy taste, it is a good source of protein and can be used to restore health in a pinch")
                             print("Restores 1 health")
@@ -1561,7 +1650,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Milk" , "milk"):
+    elif item in ("Milk" , "milk"):
                         if "Milk" in player_inventory:
                             print("A bottle of milk, it has a smooth and creamy texture with a slightly sweet taste, it is a good source of calcium and can be used to restore health in a pinch")
                             print("Restores 1 health")
@@ -1580,7 +1669,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Eggs" , "eggs"):
+    elif item in ("Eggs" , "eggs"):
                         if "Eggs" in player_inventory:
                             print("A small pack of eggs, they have a smooth and hard texture with a slightly sweet taste, they are a good source of protein but should not be eaten raw unless you want to try your chances with food poisoning")
                             print("Can drain 1 health if eaten raw but can restore 2 health if cooked")
@@ -1599,7 +1688,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Sweets" , "sweets"):
+    elif item in ("Sweets" , "sweets"):
                         if "Sweets" in player_inventory:
                             print("A bag of sweets, they have a chewy and soft texture with a sweet and fruity taste, they are a good source of sugar and can be used to restore stamina in a pinch")
                             print("Restores 2 stamina")
@@ -1618,7 +1707,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Biscuits" , "biscuits"):
+    elif item in ("Biscuits" , "biscuits"):
                         if "Biscuits" in player_inventory:
                             print("A pack of biscuits, they have a crunchy and crumbly texture with a sweet and buttery taste, they are a good source of carbohydrates and can be used to restore stamina in a pinch")
                             print("Restores 2 stamina")
@@ -1637,7 +1726,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Tomatoes" , "tomatoes"):
+    elif item in ("Tomatoes" , "tomatoes"):
                         if "Tomatoes" in player_inventory:
                             print("A basket of tomatoes, they have a juicy and soft texture with a sweet and slightly tangy taste, they are a good source of vitamins and can be used to restore health in a pinch")
                             print("Restores 1 health")
@@ -1656,7 +1745,7 @@ def inventory():
                             print("You do not have that item")
                             return
                         
-    elif check in ("Beans" , "beans"):
+    elif item in ("Beans" , "beans"):
                         if "Beans" in player_inventory:
                             print("A humble bag of dried beans, they have a soft and mushy texture with a savory and slightly sweet taste, they are a good source of protein and can be used to restore health in a pinch, but can be cooked into a dish to restore more health")
                             print("Restores 1 health")
@@ -1672,7 +1761,7 @@ def inventory():
                                 print("You decide not to eat the beans")
                                 return
                             
-    elif check in ("Beef" , "beef"):
+    elif item in ("Beef" , "beef"):
                         if "Beef" in player_inventory:
                             print("A slab of raw beef packaged in butcher paper, it has a tender and juicy texture with a rich and savory taste, it is a good source of protein but can only be eaten safely if cooked, or you'll suffer the wrath of food poisoning")
                             print("Drains 1 health")
@@ -1691,7 +1780,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Fish" , "fish"):
+    elif item in ("Fish" , "fish"):
                         if "Fish" in player_inventory:
                             print("A whole raw fish, it has a tender and flaky texture with a mild and slightly sweet taste, it is a good source of protein but can only be eaten safely if cooked, or you'll suffer the wrath of food poisoning")
                             print("Drains 1 health")
@@ -1707,7 +1796,7 @@ def inventory():
                                 print("You decide not to eat the fish")
                                 return
     
-    elif check in ("Pork" , "pork"):
+    elif item in ("Pork" , "pork"):
                         if "Pork" in player_inventory:
                             print("A slab of raw pork packaged in butcher paper, it has a tender and juicy texture with a rich and savory taste when cooked, it is a good source of protein but can only be eaten safely if cooked, or you'll suffer the wrath of food poisoning")
                             print("Drains 1 health")
@@ -1726,7 +1815,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Chicken" , "chicken"):
+    elif item in ("Chicken" , "chicken"):
                         if "Chicken" in player_inventory:
                             print("A whole raw chicken, it has a tender and juicy texture with a mild and slightly sweet taste when cooked, it is a good source of protein but can only be eaten safely if cooked, or you'll suffer the wrath of food poisoning")
                             print("Drains 1 health")
@@ -1745,7 +1834,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Lamb" , "lamb"):
+    elif item in ("Lamb" , "lamb"):
                         if "Lamb" in player_inventory:
                             print("A slab of raw lamb packaged in butcher paper, it has a tender and juicy texture with a rich and savory taste when cooked, it is a good source of protein but can only be eaten safely if cooked, or you'll suffer the wrath of food poisoning")
                             print("Drains 1 health")
@@ -1764,7 +1853,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Sausage" , "sausage"):
+    elif item in ("Sausage" , "sausage"):
                         if "Sausage" in player_inventory:
                             print("A raw sausage, it has a tender and juicy texture with a rich and savory taste when cooked, it is a good source of protein but can only be eaten safely if cooked, or you'll suffer the wrath of food poisoning")
                             print("Drains 1 health")
@@ -1783,7 +1872,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Bacon" , "bacon"):
+    elif item in ("Bacon" , "bacon"):
                         if "Bacon" in player_inventory:
                             print("A tied stack of raw bacon rashers, it has a crispy and crunchy texture with a rich and savory taste when cooked, it is a good source of protein but can only be eaten safely if cooked, or you'll suffer the wrath of food poisoning")
                             print("Drains 1 health")
@@ -1802,7 +1891,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Rope" , "rope"):
+    elif item in ("Rope" , "rope"):
                         if "Rope" in player_inventory:
                             print("A sturdy rope, it is made of hemp and can be used for climbing, tying things up, or even as a makeshift weapon in a pinch")
                             return
@@ -1810,7 +1899,7 @@ def inventory():
                             print("You do not have that item")
                             return
     
-    elif check in ("Soap" , "soap"):
+    elif item in ("Soap" , "soap"):
                         if "Soap" in player_inventory:
                             print("A bar of soap, it has a clean and fresh scent, it can be used to clean yourself or your equipment")
                             return
@@ -1818,14 +1907,14 @@ def inventory():
                             print("You do not have that item")
                             return
              
-    elif check in ("Lantern" , "lantern"):
+    elif item in ("Lantern" , "lantern"):
                         if "Lantern" in player_inventory:
                             print("A lantern, it has a sturdy metal frame and a glass enclosure to protect the flame, it can be used to light up dark areas and can be very useful in caves or dungeons")
                             return
                         else:
                             print("You do not have that item")
                             return
-    elif check in ("Leave" , "leave" , "Exit" , "exit"):
+    elif item in ("Leave" , "leave" , "Exit" , "exit"):
                         print("You leave the inventory")
                         return
     else:
@@ -1838,6 +1927,8 @@ def village():
     global health, stamina, money, inventory , maxhealth, maxstamina , XP , Level , blacksmith_looted, player_location
 
     player_location = "village"
+    stats_location = "Village"
+    stats_province = "Kamaranda"
     
     while True:    
             
