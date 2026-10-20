@@ -47,7 +47,6 @@ def create_game():
         'health': health,
         'stamina': stamina,
         'player_location': player_location,
-        'equipped': equipped,
         'weapon_damage': weapon_damage,
         'defence': defence
 
@@ -72,7 +71,6 @@ def save_game():
         'health': health,
         'stamina': stamina,
         'player_location': player_location,
-        'equipped': equipped,
         'weapon_damage': weapon_damage,
         'defence': defence    
     }
@@ -104,7 +102,6 @@ def load_game():
                 health = game_state.get('health', health)
                 stamina = game_state.get('stamina', stamina)
                 player_location = game_state.get('player_location', player_location)
-                equipped = game_state.get('equipped', equipped)
                 weapon_damage = game_state.get('weapon_damage', weapon_damage)
                 defence = game_state.get('defence', defence)
                 creategamename = loadname
@@ -375,8 +372,8 @@ def startvillblacksmith():
                                 pickup = input("Do you want to pick them up? ")
                                 if pickup in ("Yes" , "yes" , "Y" , "y"):
                                     addToInventory("Old sword")
-                                    addToInventory("Shield")
-                                    addToInventory("Dagger")
+                                    addToInventory("Wooden Shield")
+                                    addToInventory("Worn dagger")
                                     money = money + 25
                                     print("You obviously take the money as well, you now have ξ" , money) 
                                     print("Do you want to leave the blacksmith?")
@@ -1346,9 +1343,6 @@ def addToInventory(item):
 def equip_item(item):
     global player_inventory, equipped, weapon_damage , defence , equip
 
-    if item not in player_inventory:
-        print("You don't have that item to equip.")
-        return
     if item in ("Old sword", "old sword"):
         equipped['weapon'] = item
         weapon_damage = 3
@@ -1361,6 +1355,9 @@ def equip_item(item):
         equipped['shield'] = item
         defence = 2
         print(f"You equip the {item}. It will help block attacks.")
+    elif item not in player_inventory or inventory() is None:
+        print("You don't have that item to equip.")
+        return
     else:
         print("That item can't be equipped.")
 
