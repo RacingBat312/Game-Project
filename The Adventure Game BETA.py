@@ -49,7 +49,6 @@ def create_game():
         'player_location': player_location,
         'weapon_damage': weapon_damage,
         'defence': defence
-
     }
 
     with open(f'{creategamename}.pkl', 'wb') as f:
@@ -72,7 +71,7 @@ def save_game():
         'stamina': stamina,
         'player_location': player_location,
         'weapon_damage': weapon_damage,
-        'defence': defence    
+        'defence': defence
     }
     
     with open(f'{creategamename}.pkl', 'wb') as f:
@@ -303,6 +302,23 @@ def debug():
         global Level
         Level = Level + 1
         print("Added 1 Level, you are now level", Level)
+    elif debuginput in ("Add10Money"):
+        global money
+        money = money + 10
+        print("Added 10 Money, you now have", money, "Money")
+    elif debuginput in ("Add25Money"):
+        money = money + 25
+        print("Added 25 Money, you now have", money, "Money")
+    elif debuginput in ("Add50Money"):
+        money = money + 50
+        print("Added 50 Money, you now have", money, "Money")
+    elif debuginput in ("Add100Money"):
+        money = money + 100
+        print("Added 100 Money, you now have", money, "Money")
+    else:
+        print("Not a valid debug command, try again")
+        debug()
+
 
 
 def check_stats():
@@ -434,7 +450,7 @@ def startvillblacksmith():
                                     debug()
 
 def startvillstore():
-    global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP
+    global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP , stats_location, stats_province
     player_location = "startvillstore"
     stats_location = "Village / General Store"
     stats_province = "Kamaranda"
@@ -730,7 +746,7 @@ def startvillstore():
 
 
 def startvillstagecoach():
-    global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP 
+    global money , player_location , player_inventory , health , stamina , maxhealth , maxstamina , Level , XP , stats_location , stats_province
     player_location = "startvillstagecoach"
     stats_location = "Village / Stagecoach"
     stats_province = "Kamaranda"
@@ -1013,7 +1029,7 @@ def barfight():
 
 def startvillinn():
       
-      global sleptininn , health , stamina , maxhealth , maxstamina , player_inventory , money , Level , XP, player_location
+      global sleptininn , health , stamina , maxhealth , maxstamina , player_inventory , money , Level , XP, player_location, stats_location , stats_province
 
       player_location = "startvillinn"
       stats_location = "Village / Inn"
@@ -1921,7 +1937,7 @@ def inventory():
 # This is a village in the starting area of the game, this area does not have any connections to other areas yet
 
 def village():
-    global health, stamina, money, inventory , maxhealth, maxstamina , XP , Level , blacksmith_looted, player_location
+    global health, stamina, money, inventory , maxhealth, maxstamina , XP , Level , blacksmith_looted, player_location , stats_location , stats_province
 
     player_location = "village"
     stats_location = "Village"
